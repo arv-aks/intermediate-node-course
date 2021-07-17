@@ -56,42 +56,66 @@ app.route('/users/:id')
   })
   // UPDATE
   .put((req, res) => {
-     User.findByIdAndUpdate(
-       req.params.id, 
-       {
-         name:req.body.newData.name,
-         email: req.body.newData.email,
-         password: req.body.newData.password 
-       }, {
-         new: true
-       },
-       (err, data)=>{
-         if(err){
-           res.json(
-             {
-               success: false, 
-               message: err
-             }
-           )
-         }else if(!data){
+    User.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.newData.name,
+        email: req.body.newData.email,
+        password: req.body.newData.password
+      }, {
+      new: true
+    },
+      (err, data) => {
+        if (err) {
           res.json(
             {
-              success: false, 
+              success: false,
+              message: err
+            }
+          )
+        } else if (!data) {
+          res.json(
+            {
+              success: false,
               message: "not found"
             }
           )
-         }else {
+        } else {
           res.json(
             {
-              success: true, 
+              success: true,
               message: data
             }
           )
-         }
-       }
-     )
+        }
+      }
+    )
   })
   // DELETE
   .delete((req, res) => {
-    // User.findByIdAndDelete()
+    User.findByIdAndDelete(
+      req.params.id,
+      (err, data) => {
+        if (err) {
+          res.json(
+            {
+              success: false,
+              message: err
+            }
+          )
+        } else if (!data) {
+          res.json(
+            {
+              success: false,
+              message: "not found"
+            }
+          )
+        } else {
+          res.json({
+            success: true,
+            message: data
+          })
+        }
+      }
+    )
   })
